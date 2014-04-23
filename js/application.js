@@ -10,7 +10,7 @@ function step(world, interval) {
 }
 
 function init() {
-  world = new World();
+  var world = new World();
 
   var keys = {
     32: world.bird.jump,
