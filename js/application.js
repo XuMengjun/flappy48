@@ -4,8 +4,8 @@ function gameOver(interval) {
 
 function step(world, interval) {
   world.draw();
-  collision = world.step();
-  if (collision)
+  world.step();
+  if (world.hasCollision())
     gameOver(interval);
 }
 
