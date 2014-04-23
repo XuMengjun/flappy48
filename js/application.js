@@ -5,6 +5,16 @@ var interval;
 var tube = new Tube();
 var bird = new Bird();
 
+var keys = {
+  32: bird.jump,
+  38: bird.jump
+};
+
+function keydown(event) {
+  event.preventDefault();
+  keys[event.which]();
+}
+
 function draw() {
   tube.draw();
   bird.draw();
@@ -27,6 +37,7 @@ function render() {
 }
 
 function init() {
+  document.addEventListener("keydown", keydown);
   interval = setInterval(render, 100);
 }
 
