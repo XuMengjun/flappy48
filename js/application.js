@@ -1,44 +1,28 @@
-var canvas = document.getElementById("game-container").getContext("2d");
-
-var interval;
-
-var tube = new Tube();
-var bird = new Bird();
-
-var keys = {
-  32: bird.jump,
-  38: bird.jump
-};
-
-function keydown(event) {
-  event.preventDefault();
-  keys[event.which]();
-}
-
-function draw() {
-  tube.draw();
-  bird.draw();
-}
-
-function gameOver() {
+function gameOver(interval) {
   clearInterval(interval);
 }
 
-function progress() {
-  tube.progress();
-  bird.progress();
-  if (bird.collides(tube))
-    gameOver();
-}
-
-function render() {
-  draw();
-  progress();
+function step(world, interval) {
+  world.draw();
+  collision = world.step();
+  if (collision)
+    gameOver(interval);
 }
 
 function init() {
-  document.addEventListener("keydown", keydown);
-  interval = setInterval(render, 100);
+  world = new World();
+
+  var keys = {
+    32: world.bird.jump,
+    38: world.bird.jump
+  };
+
+  document.addEventListener("keydown", function(event){
+    event.preventDefault();
+    keys[event.which]();
+  });
+
+  var interval = setInterval(function(){ step(world, interval); }, 100);
 }
 
 init();
