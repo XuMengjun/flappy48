@@ -1,8 +1,31 @@
+var interval;
+
+var tube = new Tube();
+var bird = new Bird();
+
 function draw() {
+  tube.draw();
+  bird.draw();
+}
+
+function gameOver() {
+  clearInterval(interval);
+}
+
+function progress() {
+  tube.progress();
+  bird.progress();
+  if (bird.collides(tube))
+    gameOver();
+}
+
+function render() {
+  draw();
+  progress();
 }
 
 function init() {
-  setInterval(draw, 100);
+  interval = setInterval(render, 100);
 }
 
 init();
