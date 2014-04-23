@@ -1,3 +1,5 @@
+var canvas = document.getElementById("game-container").getContext("2d");
+
 var interval;
 
 var tube = new Tube();
