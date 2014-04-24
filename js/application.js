@@ -1,28 +1,51 @@
+/*jslint browser:true */
+/*global Tube, Bird, World */
+
+'use strict';
+
 function gameOver(interval) {
-  clearInterval(interval);
+    console.log('game over');
+    clearInterval(interval);
 }
 
 function step(world, interval) {
-  world.draw();
-  world.step();
-  if (world.hasCollision())
-    gameOver(interval);
+    world.draw();
+    world.step();
+    if (!world.has(Tube)) {
+        world.addTube();
+    }
+    //if (!world.has(Bird)) {
+    //    gameOver(interval);
+    //}
 }
 
-function init() {
-  var world = new World();
+function newGame() {
+    var canvas, world, keys, interval;
 
-  var keys = {
-    32: world.bird.jump,
-    38: world.bird.jump
-  };
+    canvas = document.getElementById("canvas");
+    world = new World(canvas);
 
-  document.addEventListener("keydown", function(event){
-    event.preventDefault();
-    keys[event.which]();
-  });
+    keys = {
+        32: world.objects[2].jump,
+        38: world.objects[2].jump,
+        'click': world.objects[2].jump
+    };
 
-  var interval = setInterval(function(){ step(world, interval); }, 100);
+    document.addEventListener("keydown", function (event) {
+        event.preventDefault();
+        if (keys.hasOwnProperty(event.which)) {
+            keys[event.which]();
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (keys.click) {
+            keys.click();
+        }
+    });
+
+    interval = setInterval(function () { step(world, interval); }, 1);
 }
 
-init();
+newGame();
